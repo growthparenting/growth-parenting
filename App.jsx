@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
 
 export default function App() {
   const [page, setPage] = useState("Home");
-  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const link = document.createElement("link");
@@ -13,152 +11,169 @@ export default function App() {
     document.head.appendChild(link);
   }, []);
 
-  const navItems = [
-    "Home",
-    "About",
-    "Individual Coaching",
-    "Group Classes",
-    "Blog",
-    "Contact",
-  ];
+  const navItems = ["Home", "About", "Individual Coaching", "Contact"];
 
   const Section = ({ children }) => (
     <motion.div
-      initial={{ opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
       transition={{ duration: 0.6 }}
-      style={{ display: "flex", flexDirection: "column", gap: "60px" }}
+      style={{ marginBottom: "80px" }}
     >
       {children}
     </motion.div>
   );
 
   const cardStyle = {
-    background: "rgba(255,255,255,0.06)",
+    background: "rgba(255,255,255,0.08)",
     padding: "30px",
-    borderRadius: "16px",
+    borderRadius: "20px",
+    backdropFilter: "blur(10px)",
     transition: "all 0.3s ease",
   };
 
-  const hoverCard = (e, enter) => {
-    e.currentTarget.style.transform = enter ? "translateY(-6px) scale(1.02)" : "none";
+  const hover = (e, on) => {
+    e.currentTarget.style.transform = on ? "translateY(-8px)" : "none";
+    e.currentTarget.style.boxShadow = on
+      ? "0 10px 30px rgba(0,0,0,0.2)"
+      : "none";
   };
 
-  const CalendlyEmbed = () => (
-    <div style={{ width: "100%", height: "700px", borderRadius: "16px", overflow: "hidden" }}>
-      <iframe src="https://calendly.com/your-link" width="100%" height="100%" frameBorder="0"></iframe>
-    </div>
-  );
-
-  const Testimonials = () => (
-    <div style={{ display: "grid", gap: "40px", gridTemplateColumns: "repeat(auto-fit,minmax(250px,1fr))" }}>
-      {["This coaching changed our family dynamic!", "I feel so much more confident as a parent.", "Practical tools that actually work."].map((quote, i) => (
-        <div
-          key={i}
-          style={cardStyle}
-          onMouseEnter={(e) => hoverCard(e, true)}
-          onMouseLeave={(e) => hoverCard(e, false)}
-        >
-          <p style={{ fontStyle: "italic" }}>“{quote}”</p>
-          <p style={{ marginTop: "20px", opacity: 0.7 }}>— Happy Parent</p>
-        </div>
-      ))}
-    </div>
-  );
-
-  const Approach = () => (
-    <div style={{ display: "grid", gap: "40px", gridTemplateColumns: "repeat(auto-fit,minmax(250px,1fr))" }}>
-      {["Connect", "Understand", "Guide"].map((item) => (
-        <div
-          key={item}
-          style={cardStyle}
-          onMouseEnter={(e) => hoverCard(e, true)}
-          onMouseLeave={(e) => hoverCard(e, false)}
-        >
-          <h3 style={{ fontFamily: "Playfair Display", fontSize: "22px" }}>{item}</h3>
-        </div>
-      ))}
-    </div>
+  const Button = ({ children, onClick }) => (
+    <button
+      onClick={onClick}
+      style={{
+        background: "#d97745",
+        padding: "14px 28px",
+        borderRadius: "30px",
+        border: "none",
+        color: "white",
+        cursor: "pointer",
+        fontSize: "16px",
+        transition: "all 0.3s ease",
+      }}
+      onMouseEnter={(e) => (e.target.style.transform = "scale(1.05)")}
+      onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
+    >
+      {children}
+    </button>
   );
 
   const renderPage = () => {
-    switch (page) {
-      case "Home":
-        return (
+    if (page === "Home") {
+      return (
+        <>
           <Section>
-            <div style={{ display: "grid", gap: "60px" }}>
-              <div>
-                <p style={{ textTransform: "uppercase", fontSize: "12px", opacity: 0.7 }}>
-                  Parent Coaching for Deeper Connection & Lasting Change
-                </p>
-                <h1 style={{ fontFamily: "Playfair Display", fontSize: "48px" }}>
-                  Calm, Confident Parenting Starts Here
-                </h1>
-                <p style={{ marginTop: "20px", opacity: 0.8 }}>
-                  Parenting can feel overwhelming—but with support, you can build connection and confidence.
-                </p>
-              </div>
-            </div>
-
-            <Approach />
-
-            <div>
-              <h2 style={{ fontFamily: "Playfair Display" }}>What Parents Are Saying</h2>
-              <Testimonials />
-            </div>
-          </Section>
-        );
-
-      case "About":
-        return (
-          <Section>
-            <h1 style={{ fontFamily: "Playfair Display" }}>About</h1>
-            <p>
-              I am a certified parenting coach helping families build connection, confidence, and clarity.
+            <p style={{ textTransform: "uppercase", opacity: 0.6 }}>
+              Parent Coaching for Deeper Connection & Lasting Change
             </p>
+            <h1 style={{ fontFamily: "Playfair Display", fontSize: "52px" }}>
+              Calm, Confident Parenting Starts Here
+            </h1>
+            <p style={{ maxWidth: "600px", lineHeight: 1.6, opacity: 0.85 }}>
+              Parenting can feel overwhelming—but with the right support, you can
+              build connection, confidence, and a calmer relationship with your
+              child.
+            </p>
+            <Button onClick={() => setPage("Individual Coaching")}>
+              Book a Free Intro Session
+            </Button>
           </Section>
-        );
 
-      case "Individual Coaching":
-        return (
           <Section>
-            <h1 style={{ fontFamily: "Playfair Display" }}>Individual Coaching</h1>
-            <CalendlyEmbed />
+            <div style={{ display: "grid", gap: "30px", gridTemplateColumns: "repeat(auto-fit,minmax(250px,1fr))" }}>
+              {["Connect", "Understand", "Guide"].map((item) => (
+                <div
+                  key={item}
+                  style={cardStyle}
+                  onMouseEnter={(e) => hover(e, true)}
+                  onMouseLeave={(e) => hover(e, false)}
+                >
+                  <h3 style={{ fontFamily: "Playfair Display" }}>{item}</h3>
+                </div>
+              ))}
+            </div>
           </Section>
-        );
 
-      case "Contact":
-        return (
           <Section>
-            <h1 style={{ fontFamily: "Playfair Display" }}>Contact</h1>
-            <CalendlyEmbed />
+            <h2 style={{ fontFamily: "Playfair Display" }}>Testimonials</h2>
+            <div style={{ display: "grid", gap: "30px", gridTemplateColumns: "repeat(auto-fit,minmax(250px,1fr))" }}>
+              {["This coaching changed everything.", "I feel more confident.", "So helpful!"].map((t, i) => (
+                <div
+                  key={i}
+                  style={cardStyle}
+                  onMouseEnter={(e) => hover(e, true)}
+                  onMouseLeave={(e) => hover(e, false)}
+                >
+                  <p>“{t}”</p>
+                </div>
+              ))}
+            </div>
           </Section>
-        );
+        </>
+      );
+    }
 
-      default:
-        return <Section><p>Coming soon</p></Section>;
+    if (page === "About") {
+      return (
+        <Section>
+          <h1 style={{ fontFamily: "Playfair Display" }}>About</h1>
+          <p style={{ maxWidth: "700px", lineHeight: 1.7 }}>
+            I am a certified parenting coach helping families build connection,
+            confidence, and clarity.
+          </p>
+        </Section>
+      );
+    }
+
+    if (page === "Individual Coaching") {
+      return (
+        <Section>
+          <h1 style={{ fontFamily: "Playfair Display" }}>Coaching</h1>
+          <iframe
+            src="https://calendly.com/your-link"
+            style={{ width: "100%", height: "700px", border: "none", borderRadius: "20px" }}
+          />
+        </Section>
+      );
+    }
+
+    if (page === "Contact") {
+      return (
+        <Section>
+          <h1 style={{ fontFamily: "Playfair Display" }}>Contact</h1>
+          <p>Email: your@email.com</p>
+        </Section>
+      );
     }
   };
 
   return (
-    <div style={{ minHeight: "100vh", background: "linear-gradient(135deg,#2c5f5d,#4b3f72)", color: "white", fontFamily: "Inter" }}>
-      <nav style={{ display: "flex", justifyContent: "space-between", padding: "20px" }}>
-        <div style={{ fontFamily: "Playfair Display" }}>Growth Parenting</div>
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "linear-gradient(135deg,#2f5d62,#5c4a72)",
+        color: "white",
+        fontFamily: "Inter",
+        padding: "40px",
+      }}
+    >
+      <nav style={{ display: "flex", justifyContent: "space-between", marginBottom: "60px" }}>
+        <h2 style={{ fontFamily: "Playfair Display" }}>Growth Parenting</h2>
         <div>
           {navItems.map((item) => (
-            <button key={item} onClick={() => setPage(item)} style={{ marginLeft: "10px" }}>
+            <button
+              key={item}
+              onClick={() => setPage(item)}
+              style={{ marginLeft: "20px", background: "none", border: "none", color: "white", cursor: "pointer" }}
+            >
               {item}
             </button>
           ))}
         </div>
       </nav>
 
-      <main style={{ padding: "40px", maxWidth: "1000px", margin: "auto" }}>{renderPage()}</main>
-
-      <footer style={{ textAlign: "center", padding: "20px", opacity: 0.6 }}>
-        © {new Date().getFullYear()} Growth Parenting
-      </footer>
+      {renderPage()}
     </div>
   );
 }
