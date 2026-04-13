@@ -11,7 +11,7 @@ export default function App() {
     document.head.appendChild(link);
   }, []);
 
-  const navItems = ["Home", "About", "Coaching", "Contact"];
+  const navItems = ["Home", "About Me", "Coaching", "Contact"];
 
   const Section = ({ children }) => (
     <motion.div
@@ -142,7 +142,7 @@ export default function App() {
         <Section>
           <h1 style={{ fontFamily: "Playfair Display" }}>Book a Session</h1>
           <iframe
-            src="https://calendly.com/your-link"
+            src="https://calendly.com/staceymcschrader/30min"
             style={{ width: "100%", height: "700px", border: "none", borderRadius: "20px" }}
           />
         </Section>
@@ -153,7 +153,7 @@ export default function App() {
       return (
         <Section>
           <h1 style={{ fontFamily: "Playfair Display" }}>Contact</h1>
-          <p>Email: your@email.com</p>
+          <p>Email: growthparentinginfo@gmail.com</p>
         </Section>
       );
     }
