@@ -10,7 +10,7 @@ export default function App() {
     link.rel = "stylesheet";
     document.head.appendChild(link);
   }, []);
-
+ 
   const navItems = ["Home", "About Me", "Coaching", "Contact"];
 
   const Section = ({ children }) => (
