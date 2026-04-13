@@ -12,7 +12,7 @@ useEffect(() => {
     }
   `;
   document.head.appendChild(style);
-}, []);
+}, []); 
  
   const navItems = ["Home", "About Me", "Coaching", "Contact"];
 
