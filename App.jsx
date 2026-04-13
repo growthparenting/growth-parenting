@@ -4,12 +4,15 @@ import { motion } from "framer-motion";
 export default function App() {
   const [page, setPage] = useState("Home");
 
-  useEffect(() => {
-    const link = document.createElement("link");
-    link.href = "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500&display=swap";
-    link.rel = "stylesheet";
-    document.head.appendChild(link);
-  }, []);
+useEffect(() => {
+  const style = document.createElement("style");
+  style.innerHTML = `
+    div:hover > .underline {
+      width: 100%;
+    }
+  `;
+  document.head.appendChild(style);
+}, []);
  
   const navItems = ["Home", "About Me", "Coaching", "Contact"];
 
@@ -172,15 +175,32 @@ export default function App() {
       <nav style={{ display: "flex", justifyContent: "space-between", marginBottom: "60px" }}>
         <h2 style={{ fontFamily: "Playfair Display" }}>Growth Parenting</h2>
         <div>
-          {navItems.map((item) => (
-            <button
-              key={item}
-              onClick={() => setPage(item)}
-              style={{ marginLeft: "20px", background: "none", border: "none", color: "white", cursor: "pointer" }}
-            >
-              {item}
-            </button>
-          ))}
+{navItems.map((item) => (
+  <div
+    key={item}
+    onClick={() => setPage(item)}
+    style={{
+      marginLeft: "20px",
+      cursor: "pointer",
+      position: "relative",
+      display: "inline-block"
+    }}
+  >
+    {item}
+    <span
+      style={{
+        position: "absolute",
+        left: 0,
+        bottom: "-4px",
+        width: "0%",
+        height: "2px",
+        background: "#d97745",
+        transition: "width 0.3s ease"
+      }}
+      className="underline"
+    ></span>
+  </div>
+))}
         </div>
       </nav>
 
