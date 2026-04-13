@@ -4,17 +4,24 @@ import { motion } from "framer-motion";
 export default function App() {
   const [page, setPage] = useState("Home");
 
-useEffect(() => {
-  const style = document.createElement("style");
-  style.innerHTML = `
-    div:hover > .underline {
-      width: 100%;
-    }
-  `;
-  document.head.appendChild(style);
-}, []);  
- 
-  const navItems = ["Home", "About Me", "Coaching", "Contact"];
+  useEffect(() => {
+    // Fonts
+    const link = document.createElement("link");
+    link.href = "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500&display=swap";
+    link.rel = "stylesheet";
+    document.head.appendChild(link);
+
+    // Underline animation CSS
+    const style = document.createElement("style");
+    style.innerHTML = `
+      .nav-item:hover .underline {
+        width: 100%;
+      }
+    `;
+    document.head.appendChild(style);
+  }, []);
+
+  const navItems = ["Home", "About", "Coaching", "Contact"];
 
   const Section = ({ children }) => (
     <motion.div
@@ -62,6 +69,21 @@ useEffect(() => {
     </div>
   );
 
+  const Image = ({ src, alt, width = "100%" }) => (
+    <img
+      src={src}
+      alt={alt}
+      style={{
+        width,
+        borderRadius: "20px",
+        marginTop: "20px",
+        transition: "transform 0.3s ease",
+      }}
+      onMouseEnter={(e) => (e.target.style.transform = "scale(1.03)")}
+      onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
+    />
+  );
+
   const renderPage = () => {
     if (page === "Home") {
       return (
@@ -74,14 +96,14 @@ useEffect(() => {
               You don’t have to figure parenting out alone.
             </h1>
             <p style={{ maxWidth: "650px", lineHeight: 1.7, opacity: 0.85 }}>
-              If you’re feeling overwhelmed, reactive, or unsure how to respond to your child, you’re not alone. Parenting is complex—and most of us were never given the tools we actually need.
+              If you’re feeling overwhelmed, reactive, or unsure how to respond to your child, you’re not alone.
             </p>
-            <p style={{ maxWidth: "650px", lineHeight: 1.7, opacity: 0.85 }}>
-              Together, we’ll help you build the skills to stay calm, understand your child more deeply, and create a more connected, peaceful relationship.
-            </p>
+
             <Button onClick={() => setPage("Coaching")}>
               Book Your Free Intro Session
             </Button>
+
+            <Image src="/hero.jpg" alt="Parent and child connecting" />
           </Section>
 
           <Section>
@@ -89,53 +111,31 @@ useEffect(() => {
             <div style={{ display: "grid", gap: "30px", gridTemplateColumns: "repeat(auto-fit,minmax(250px,1fr))" }}>
               <Card>
                 <h3>Stay Calm</h3>
-                <p>Learn how to respond instead of react, even in hard moments.</p>
+                <p>Respond instead of react.</p>
               </Card>
               <Card>
                 <h3>Understand Behavior</h3>
-                <p>See what’s underneath your child’s actions and emotions.</p>
+                <p>See what’s underneath actions.</p>
               </Card>
               <Card>
                 <h3>Build Connection</h3>
-                <p>Create a relationship rooted in trust, safety, and respect.</p>
+                <p>Create trust and safety.</p>
               </Card>
             </div>
-          </Section>
-
-          <Section>
-            <h2 style={{ fontFamily: "Playfair Display" }}>What Parents Experience</h2>
-            <div style={{ display: "grid", gap: "30px", gridTemplateColumns: "repeat(auto-fit,minmax(250px,1fr))" }}>
-              {["I feel calmer and more confident.", "Our home feels more peaceful.", "I understand my child so much better."].map((t, i) => (
-                <Card key={i}>
-                  <p>“{t}”</p>
-                </Card>
-              ))}
-            </div>
-          </Section>
-
-          <Section>
-            <h2 style={{ fontFamily: "Playfair Display" }}>Start Here</h2>
-            <p style={{ maxWidth: "600px", opacity: 0.85 }}>
-              Your first step is a free introductory session. We’ll talk about what’s going on in your family and how I can support you.
-            </p>
-            <Button onClick={() => setPage("Coaching")}>
-              Schedule Your Session
-            </Button>
           </Section>
         </>
       );
     }
 
-    if (page === "About Me") {
+    if (page === "About") {
       return (
         <Section>
-          <h1 style={{ fontFamily: "Playfair Display" }}>About Me</h1>
+          <h1 style={{ fontFamily: "Playfair Display" }}>About</h1>
           <p style={{ maxWidth: "700px", lineHeight: 1.7 }}>
-            I am a certified parenting coach helping families move from overwhelm to clarity, connection, and confidence. My work began as a teacher, where I saw how much parents care—and how little support they receive.
+            I am a certified parenting coach helping families move from overwhelm to connection and confidence.
           </p>
-          <p style={{ maxWidth: "700px", lineHeight: 1.7 }}>
-            I believe you already have what you need within you. My role is to help you access it, strengthen it, and apply it in a way that works for your unique child and family.
-          </p>
+
+          <Image src="/you.jpg" alt="Parent coach portrait" width="300px" />
         </Section>
       );
     }
@@ -145,7 +145,7 @@ useEffect(() => {
         <Section>
           <h1 style={{ fontFamily: "Playfair Display" }}>Book a Session</h1>
           <iframe
-            src="https://calendly.com/staceymcschrader/30min"
+            src="https://calendly.com/your-link"
             style={{ width: "100%", height: "700px", border: "none", borderRadius: "20px" }}
           />
         </Section>
@@ -156,7 +156,7 @@ useEffect(() => {
       return (
         <Section>
           <h1 style={{ fontFamily: "Playfair Display" }}>Contact</h1>
-          <p>Email: growthparentinginfo@gmail.com</p>
+          <p>Email: your@email.com</p>
         </Section>
       );
     }
@@ -175,32 +175,33 @@ useEffect(() => {
       <nav style={{ display: "flex", justifyContent: "space-between", marginBottom: "60px" }}>
         <h2 style={{ fontFamily: "Playfair Display" }}>Growth Parenting</h2>
         <div>
-{navItems.map((item) => (
-  <div
-    key={item}
-    onClick={() => setPage(item)}
-    style={{
-      marginLeft: "20px",
-      cursor: "pointer",
-      position: "relative",
-      display: "inline-block"
-    }}
-  >
-    {item}
-    <span
-      style={{
-        position: "absolute",
-        left: 0,
-        bottom: "-4px",
-        width: "0%",
-        height: "2px",
-        background: "#d97745",
-        transition: "width 0.3s ease"
-      }}
-      className="underline"
-    ></span>
-  </div>
-))}
+          {navItems.map((item) => (
+            <div
+              key={item}
+              onClick={() => setPage(item)}
+              className="nav-item"
+              style={{
+                marginLeft: "20px",
+                cursor: "pointer",
+                position: "relative",
+                display: "inline-block"
+              }}
+            >
+              {item}
+              <span
+                className="underline"
+                style={{
+                  position: "absolute",
+                  left: 0,
+                  bottom: "-4px",
+                  width: "0%",
+                  height: "2px",
+                  background: "#d97745",
+                  transition: "width 0.3s ease"
+                }}
+              ></span>
+            </div>
+          ))}
         </div>
       </nav>
 
