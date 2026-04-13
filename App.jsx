@@ -123,10 +123,10 @@ export default function App() {
       );
     }
 
-    if (page === "About") {
+    if (page === "About Me") {
       return (
         <Section>
-          <h1 style={{ fontFamily: "Playfair Display" }}>About</h1>
+          <h1 style={{ fontFamily: "Playfair Display" }}>About Me</h1>
           <p style={{ maxWidth: "700px", lineHeight: 1.7 }}>
             I am a certified parenting coach helping families move from overwhelm to clarity, connection, and confidence. My work began as a teacher, where I saw how much parents care—and how little support they receive.
           </p>
